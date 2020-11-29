@@ -3,6 +3,9 @@ import '../App.css';
 import Nav from './Nav';
 import ProductList from './ProductList';
 import { data } from '../products';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import ProductDetails from './pages/ProductDetails';
+import OrderDetails from './pages/OrderDetails';
 
 function App() {
   const { products } = data;
@@ -34,8 +37,16 @@ function App() {
 
   return (
     <div className="app">
-      <Nav addToCart={addToCart} cartItems={cartItems} />
-      <ProductList products={products} addToCart={addToCart} />
+      <BrowserRouter>
+        <Nav addToCart={addToCart} cartItems={cartItems} setCartItems={setCartItems} />
+        <Switch>
+          <Route path="/product/:id">
+            <ProductDetails {...products} addToCart={addToCart} />
+          </Route>
+          <Route path="/order-details" component={OrderDetails} />
+          <ProductList products={products} addToCart={addToCart} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
